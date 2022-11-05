@@ -31,7 +31,14 @@ const Product = () => {
           </Typography>
           <Typography variant="body2">Dimensions: 00x00x00</Typography>
           <Typography variant="body2">Condition: Used</Typography>
-          <CalculateDelivery setDeliveryFee={setDeliveryFee} />
+          <Box
+            sx={{
+              display: 'flex',
+              justifyContent: 'center',
+            }}
+          >
+            <CalculateDelivery setDeliveryFee={setDeliveryFee} deliveryFee={deliveryFee} />
+          </Box>
           <Box sx={{ display: 'flex', textAlign: 'center', justifyContent: 'center' }}>
             {deliveryFee && <Typography variant="body1">Delivery fee: €{deliveryFee}</Typography>}
           </Box>
