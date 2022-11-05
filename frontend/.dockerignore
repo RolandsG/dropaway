@@ -1,0 +1,10 @@
+# Draza ko nevajag imagee
+Dockerfile
+.dockerignore
+.gitignore
+README.md
+
+# Artefakti kurus uzražo taisot image
+# This should contain all files created during `npm run build`. shiis lietinjas uzrazho npm run builds
+build
+node_modules
