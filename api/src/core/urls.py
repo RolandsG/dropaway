@@ -6,6 +6,7 @@ from .views import (
     UserItemViewSet,
     ItemOrderViewSet,
     DeliveryFeeView,
+    DeliveryOrderView,
 )
 
 router = DefaultRouter()
@@ -16,6 +17,7 @@ router.register("order-item", ItemOrderViewSet, basename="order-item")
 
 urlpatterns = [
     path('delivery-fee', DeliveryFeeView.as_view(), name="delivery-fee"),
+    path('delivery-order', DeliveryOrderView.as_view(), name="delivery-order"),
 ]
 
 urlpatterns = router.urls + urlpatterns

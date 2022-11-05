@@ -75,3 +75,64 @@ class DeliveryFeeView(APIView):
         api_call = requests.post(url, headers=headers, json=data)
 
         return Response(data=api_call.json())
+
+
+class DeliveryOrderView(APIView):
+
+    def get(self, request, *args, **kwargs):
+
+        item_id = request.query_params["item_id"]
+        dropoff = request.query_params["dropoff"]
+
+        item = Item.objects.get(pk=item_id)
+
+        # call another api for POST
+        url = 'https://daas-public-api.development.dev.woltapi.com/merchants/6364e0098018ce361efafca7/delivery-order'
+        data = {
+            "pickup": {
+                "location": {
+                    "formatted_address": item.pickup_location
+                },
+                "comment": "The box is in front of the door",
+                "contact_details": {
+                    "name": "John Doe",
+                    "phone_number": "+358123456789",
+                    "send_tracking_link_sms": False
+                }
+            },
+            "dropoff": {
+                "location": {
+                    "formatted_address": dropoff
+                },
+                "contact_details": {
+                    "name": "John Doe's wife",
+                    "phone_number": "+358123456789",
+                    "send_tracking_link_sms": False
+                },
+                "comment": "Leave at the door, please"
+            },
+            "customer_support": {
+                "email": "string",
+                "phone_number": "string",
+                "url": "string"
+            },
+            "is_no_contact": True,
+            "contents": [
+                {
+                    "count": 1,
+                    "description": item.description,
+                    "identifier": str(item.id),
+                    "tags": []
+                }
+            ],
+            "tips": [],
+            "min_preparation_time_minutes": 10,
+        }
+        headers = {
+            "Content-Type": "application/json",
+            "Authorization": "Bearer hPklgvFdpMgC8mNt8Z7OiiYdBqJZMi4RBwqsQnJ60c4"
+        }
+
+        api_call = requests.post(url, headers=headers, json=data)
+
+        return Response(data=api_call.json())
