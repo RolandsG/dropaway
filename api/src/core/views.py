@@ -1,6 +1,7 @@
 import requests
 from rest_framework.response import Response
 from rest_framework.views import APIView
+from django_filters import rest_framework as filters
 
 from rest_framework.viewsets import ModelViewSet
 from rest_framework.permissions import IsAuthenticated, IsAuthenticatedOrReadOnly
@@ -19,6 +20,8 @@ class ItemViewSet(ModelViewSet):
     serializer_class = ItemSerializer
     http_method_names = ["get", "post"]
     queryset = Item.objects.all()
+    filter_backends = (filters.DjangoFilterBackend,)
+    filterset_fields = ('status',)
 
     def perform_create(self, serializer):
         serializer.save(user=self.request.user)
