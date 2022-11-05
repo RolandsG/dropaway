@@ -1,0 +1,21 @@
+version: "3.9"
+services:
+  api:
+    build:
+      context: .
+      dockerfile: api/Dockerfile
+    env_file:
+      - ./api/src/project/.env
+    ports:
+      - "8000:8000"
+    command: startserver
+    volumes:
+      - .:/code
+  frontend:
+    build:
+      context: .
+      dockerfile: frontend/Dockerfile
+    env_file:
+      - ./frontend/.env
+    ports:
+      - "80:80"
