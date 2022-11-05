@@ -41,6 +41,7 @@ class Item(models.Model):
     condition = models.CharField(max_length=20, choices=CONDITIONS, default='USED')
     buyer = models.ForeignKey("auth.user", related_name="productBuyer", on_delete=models.CASCADE, null=True, blank=True)
     timestamp = models.DateTimeField(auto_now_add=True)
+    pickup_location = models.CharField(max_length=200)
 
     def __str__(self):
         return self.title

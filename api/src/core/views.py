@@ -28,7 +28,8 @@ class ItemOrderViewSet(ModelViewSet):
     queryset = Item.objects.all()
 
     def perform_update(self, serializer):
-        serializer.save(buyer=self.request.user)
+        serializer.save(buyer=self.request.user,
+                        status="SCHEDULED")
 
 
 class UserItemViewSet(ModelViewSet):
