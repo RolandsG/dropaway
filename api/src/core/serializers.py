@@ -15,10 +15,5 @@ class ItemSerializer(ModelSerializer):
             'description',
             'dimensions',
             'status',
+            'buyer',
         )
-
-
-class ItemPatchSerializer(ModelSerializer):
-    class Meta:
-        model = Item
-        fields = ('buyer',)
