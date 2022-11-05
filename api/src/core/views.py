@@ -1,3 +1,7 @@
+import requests
+from rest_framework.response import Response
+from rest_framework.views import APIView
+
 from rest_framework.viewsets import ModelViewSet
 from rest_framework.permissions import IsAuthenticated, IsAuthenticatedOrReadOnly
 
@@ -40,3 +44,34 @@ class UserItemViewSet(ModelViewSet):
 
     def get_queryset(self):
         return Item.objects.filter(user=self.request.user)
+
+
+class DeliveryFeeView(APIView):
+
+    def get(self, request, *args, **kwargs):
+
+        pickup = request.query_params["pickup"]
+        dropoff = request.query_params["dropoff"]
+
+        # call another api for POST
+        url = 'https://daas-public-api.development.dev.woltapi.com/merchants/6364e0098018ce361efafca7/delivery-fee'
+        data = {
+            "pickup": {
+                "location": {
+                    "formatted_address": pickup
+                }
+            },
+            "dropoff": {
+                "location": {
+                    "formatted_address": dropoff
+                }
+            }
+        }
+        headers = {
+            "Content-Type": "application/json",
+            "Authorization": "Bearer hPklgvFdpMgC8mNt8Z7OiiYdBqJZMi4RBwqsQnJ60c4"
+        }
+
+        api_call = requests.post(url, headers=headers, json=data)
+
+        return Response(data=api_call.json())
