@@ -1,13 +1,24 @@
-from rest_framework.serializers import ModelSerializer, DecimalField
-from rest_framework import filters
+from rest_framework.serializers import ModelSerializer
 
-from core.models import Item
+from .models import Item
 
 
 class ItemSerializer(ModelSerializer):
     class Meta:
         model = Item
         fields = (
-            "id",
+            'id',
+            'title',
+            'category',
+            'description',
+            'photo_src',
+            'description',
+            'dimensions',
+            'status',
         )
-        read_only_fields = fields
+
+
+class ItemPatchSerializer(ModelSerializer):
+    class Meta:
+        model = Item
+        fields = ('buyer',)

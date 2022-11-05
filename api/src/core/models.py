@@ -3,18 +3,35 @@ import uuid
 
 # Create your models here.
 
+
 class Item(models.Model):
+    STATUSES = (
+        ('LISTED', 'Listed'),
+        ('SCHEDULED', 'Scheduled'),
+        ('DELIVERED', 'Delivered'),
+        ('DELETED', 'Deleted'),
+    )
+
+    CATEGORIES = (
+        ('APPAREL', 'Apparel'),
+        ('ELECTRONICS', 'Apparel'),
+        ('GARDEN', 'Garden & Outdoors'),
+        ('SUPPLIES', 'Supplies'),
+        ('SPORT', 'Sporting goods'),
+        ('HOME', 'Home goods'),
+        ('GAMES', 'Toys and Games'),
+        ('OTHER', 'Other'),
+    )
+
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
-    user_id = models.DecimalField(max_digits=10, decimal_places=2, null=True, blank=True)
-    category = models.CharField(max_length=100, unique=True)
-    title = models.CharField(max_length=100, unique=True)
-    description = models.CharField(max_length=100, unique=True)
-    photo_src = models.CharField(max_length=100, unique=True)
-    buyer = models.CharField(max_length=100, unique=True)
-    status = models.CharField(max_length=100, unique=True)
-    wolt_link = models.CharField(max_length=100, unique=True)
-    dimensions = models.CharField(max_length=100, unique=True)
-    weight = models.CharField(max_length=100, unique=True)
+    user = models.ForeignKey("auth.user", related_name="productUser", on_delete=models.CASCADE)
+    title = models.CharField(max_length=100)
+    category = models.CharField(max_length=20, choices=CATEGORIES, default='OTHER')
+    description = models.CharField(max_length=500)
+    photo_src = models.CharField(max_length=200)
+    dimensions = models.CharField(max_length=100)
+    status = models.CharField(max_length=20, choices=STATUSES, default='LISTED')
+    buyer = models.ForeignKey("auth.user", related_name="productBuyer", on_delete=models.CASCADE, null=True, blank=True)
     timestamp = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):

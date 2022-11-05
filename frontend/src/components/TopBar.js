@@ -13,7 +13,7 @@ const TopBar = () => {
       <Box
         component="img"
         sx={{
-          width: 200,
+          width: 130,
         }}
         alt="Dropaway logo"
         src={Logo}

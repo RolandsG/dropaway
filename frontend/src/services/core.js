@@ -1,13 +1,12 @@
 const baseUrl = process.env.REACT_APP_BASE_URL
 
 // mockup
-const getProducts = async ({ username, password }) => {
+const getProducts = async () => {
   const config = {
-    method: 'POST',
+    method: 'GET',
     headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ username, password }),
   }
-  const responseRaw = await fetch(`${baseUrl}/login/`, config)
+  const responseRaw = await fetch(`${baseUrl}/api/v1/core/Items/`, config)
   const response = await responseRaw.json()
   return response
 }
