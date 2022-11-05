@@ -8,9 +8,18 @@ import DialogTitle from '@mui/material/DialogTitle'
 import { Box } from '@mui/system'
 import { useState } from 'react'
 import woltService from '../services/wolt'
+import Typography from '@mui/material/Typography'
 
-export default function CalculateDelivery({ setDeliveryFee, deliveryFee }) {
+export default function CalculateDelivery({
+  setDeliveryFee,
+  deliveryFee,
+  setDeliveryEstimate,
+  pickup,
+  address,
+  setAddress,
+}) {
   const [open, setOpen] = useState(false)
+  const [error, setError] = useState(null)
 
   const handleClickOpen = () => {
     setOpen(true)
@@ -20,14 +29,27 @@ export default function CalculateDelivery({ setDeliveryFee, deliveryFee }) {
     setOpen(false)
   }
   const getFee = async () => {
+    let pickupLocation
+    if (pickup !== '') {
+      pickupLocation = pickup
+    } else {
+      pickupLocation = 'Helsiki Central Station'
+    }
     const response = await woltService.getDeliveryFee({
-      pickup: 'brivibas 132',
-      dropoff: 'tomsona 32',
+      pickup: pickupLocation,
+      dropoff: address,
     })
-    const fee = response.fee.amount
-    const deliveryEstimate = response.time_estimate_minutes
-    console.log('fee', fee)
-    console.log('delivery time', deliveryEstimate)
+    if (response.error_code) {
+      setError(response.error_code)
+      console.error(response)
+    } else {
+      setError(null)
+      const fee = ((response.fee.amount / 100) * Math.random()).toFixed(2)
+      const deliveryEstimate = response.time_estimate_minutes
+      setDeliveryFee(fee)
+      setDeliveryEstimate(deliveryEstimate)
+      handleClose()
+    }
   }
 
   return (
@@ -40,13 +62,25 @@ export default function CalculateDelivery({ setDeliveryFee, deliveryFee }) {
         )}
         {deliveryFee && (
           <Button variant="outlined" color="primary" onClick={handleClickOpen} fullWidth>
-            Realculate delivery fee
+            Recalculate delivery fee
           </Button>
         )}
         <Dialog open={open} onClose={handleClose}>
           <DialogTitle>Enter delivery address</DialogTitle>
           <DialogContent>
-            <TextField autoFocus label="Street name and number" fullWidth variant="standard" />
+            <TextField
+              autoFocus
+              label="Street name and number"
+              fullWidth
+              variant="standard"
+              value={address}
+              onChange={({ target }) => setAddress(target.value)}
+            />
+            {error && (
+              <Typography variant="overline" color="red">
+                {error}
+              </Typography>
+            )}
           </DialogContent>
           <DialogActions>
             <Button onClick={handleClose}>Cancel</Button>

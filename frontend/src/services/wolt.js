@@ -15,7 +15,35 @@ const getDeliveryFee = async ({ pickup, dropoff }) => {
   return response
 }
 
+const orderItem = async ({ itemId, dropoff }) => {
+  const user = window.localStorage.getItem('session')
+  const coreConfig = {
+    method: 'PATCH',
+    headers: {
+      'Content-Type': 'application/json',
+      ...(!!user && { Authorization: `Token ${user}` }),
+    },
+  }
+  const woltConfig = {
+    method: 'GET',
+    headers: { 'Content-Type': 'application/json' },
+  }
+
+  const coreResponseRaw = await fetch(`${baseUrl}/api/v1/core/order-item/${itemId}/`, coreConfig)
+  const coreResponse = await coreResponseRaw.json()
+
+  if (coreResponseRaw.status === 200 && coreResponse.status === 'SCHEDULED') {
+    const woltResponseRaw = await fetch(
+      `${baseUrl}/api/v1/core/delivery-order?item_id=${itemId}&dropoff=${dropoff}`,
+      woltConfig,
+    )
+    const woltResponse = await woltResponseRaw.json()
+    return woltResponse
+  }
+}
+
 /* eslint import/no-anonymous-default-export: [2, {"allowObject": true}] */
 export default {
   getDeliveryFee,
+  orderItem,
 }

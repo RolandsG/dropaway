@@ -12,6 +12,7 @@ const DefaultLayout = () => {
       <Box
         sx={{
           width: { lg: '40vw', xl: '35vw' },
+          mb: '56px',
           marginLeft: 'auto',
           marginRight: 'auto',
         }}

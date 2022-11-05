@@ -1,13 +1,10 @@
 const baseUrl = process.env.REACT_APP_BASE_URL
 
-// mockup
 const getProducts = async () => {
-  const user = window.localStorage.getItem('session')
   const config = {
     method: 'GET',
     headers: {
       'Content-Type': 'application/json',
-      ...(!!user && { Authorization: `Token ${user}` }),
     },
   }
   const responseRaw = await fetch(`${baseUrl}/api/v1/core/items/`, config)
@@ -15,7 +12,18 @@ const getProducts = async () => {
   return response
 }
 
-// mockup
+const getSingleProduct = async ({ id }) => {
+  const config = {
+    method: 'GET',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+  }
+  const responseRaw = await fetch(`${baseUrl}/api/v1/core/items/${id}/`, config)
+  const response = await responseRaw.json()
+  return response
+}
+
 const addProduct = async ({ item }) => {
   const user = window.localStorage.getItem('session')
   const config = {
@@ -68,4 +76,5 @@ export default {
   addProduct,
   deleteProduct,
   purchaseProduct,
+  getSingleProduct,
 }

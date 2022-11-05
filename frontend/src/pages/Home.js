@@ -9,6 +9,7 @@ import AddIcon from '@mui/icons-material/Add'
 
 const Home = () => {
   const title = 'Categories'
+  const user = window.localStorage.getItem('session')
   const [items, setItems] = useState(null)
   const [categories, setCategories] = useState(null)
 
@@ -59,8 +60,8 @@ const Home = () => {
                   .map((product) => {
                     return (
                       <Box
-                        disableGutters
                         key={product.id}
+                        disableGutters
                         sx={{
                           display: 'flex',
                           width: '100px',
@@ -68,16 +69,23 @@ const Home = () => {
                           mx: 1,
                         }}
                       >
-                        <Box
-                          disableGutters
-                          component="img"
-                          sx={{
-                            width: '100%',
-                          }}
-                          alt="Item Picture"
-                          src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ6GGUNbamHf-Kn0vOP67diocqTsx4QXme2SQ&usqp=CAU"
-                        />
-                        <Typography variant="body2" sx={{ my: 1 }}>
+                        <NavLink to={`product/${product.id}`}>
+                          <Box
+                            disableGutters
+                            component="img"
+                            sx={{
+                              width: '100%',
+                            }}
+                            alt="Item Picture"
+                            src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ6GGUNbamHf-Kn0vOP67diocqTsx4QXme2SQ&usqp=CAU"
+                          />
+                        </NavLink>
+                        <Typography
+                          component={NavLink}
+                          to={`product/${product.id}`}
+                          variant="body2"
+                          sx={{ my: 1, textDecoration: 'none', color: 'inherit' }}
+                        >
                           {product.title}
                         </Typography>
                       </Box>
@@ -87,23 +95,25 @@ const Home = () => {
             </Box>
           )
         })}
-      <Box sx={{ display: 'flex' }}>
-        <Box sx={{ flexGrow: 1 }} />
-        <Fab
-          color="primary"
-          aria-label="add"
-          sx={{
-            minWidth: '56px',
-            position: 'fixed',
-            bottom: '70px',
-            right: { xs: '30px', md: '100px', lg: '500px' },
-          }}
-          component={NavLink}
-          to="new-product"
-        >
-          <AddIcon />
-        </Fab>
-      </Box>
+      {user && (
+        <Box sx={{ display: 'flex' }}>
+          <Box sx={{ flexGrow: 1 }} />
+          <Fab
+            color="primary"
+            aria-label="add"
+            sx={{
+              minWidth: '56px',
+              position: 'fixed',
+              bottom: '70px',
+              right: { xs: '30px', md: '100px', lg: '500px' },
+            }}
+            component={NavLink}
+            to="new-product"
+          >
+            <AddIcon />
+          </Fab>
+        </Box>
+      )}
     </Box>
   )
 }
