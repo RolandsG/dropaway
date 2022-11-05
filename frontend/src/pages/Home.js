@@ -4,6 +4,8 @@ import Typography from '@mui/material/Typography'
 import coreService from '../services/core'
 import { NavLink } from 'react-router-dom'
 import Button from '@mui/material/Button'
+import Fab from '@mui/material/Fab'
+import AddIcon from '@mui/icons-material/Add'
 
 const Home = () => {
   const title = 'Categories'
@@ -47,7 +49,6 @@ const Home = () => {
                 sx={{
                   display: 'flex',
                   flexDirection: 'row',
-                  gap: 2,
                   justifyContent: 'flex-start',
                   my: 1,
                 }}
@@ -86,6 +87,21 @@ const Home = () => {
             </Box>
           )
         })}
+      <Box sx={{ display: 'flex' }}>
+        <Box sx={{ flexGrow: 1 }} />
+        <Fab
+          color="primary"
+          aria-label="add"
+          sx={{
+            minWidth: '56px',
+            position: 'fixed',
+            bottom: '70px',
+            right: { xs: '30px', md: '100px', lg: '500px' },
+          }}
+        >
+          <AddIcon />
+        </Fab>
+      </Box>
     </Box>
   )
 }

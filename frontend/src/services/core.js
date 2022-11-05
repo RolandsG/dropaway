@@ -2,9 +2,13 @@ const baseUrl = process.env.REACT_APP_BASE_URL
 
 // mockup
 const getProducts = async () => {
+  const user = window.localStorage.getItem('session')
   const config = {
     method: 'GET',
-    headers: { 'Content-Type': 'application/json' },
+    headers: {
+      'Content-Type': 'application/json',
+      ...(!!user && { Authorization: `Token ${user}` }),
+    },
   }
   const responseRaw = await fetch(`${baseUrl}/api/v1/core/Items/`, config)
   const response = await responseRaw.json()

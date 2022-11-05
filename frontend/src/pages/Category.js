@@ -37,8 +37,7 @@ const Category = () => {
         sx={{
           display: 'flex',
           flexDirection: 'row',
-          gap: 2,
-          justifyContent: 'center',
+          justifyContent: 'flex-start',
           flexWrap: 'wrap',
           my: 1,
         }}
