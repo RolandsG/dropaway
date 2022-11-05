@@ -17,4 +17,5 @@ class ItemSerializer(ModelSerializer):
             'status',
             'buyer',
             'pickup_location',
+            'condition',
         )
