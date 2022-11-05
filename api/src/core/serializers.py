@@ -18,4 +18,6 @@ class ItemSerializer(ModelSerializer):
             'buyer',
             'pickup_location',
             'condition',
+            'pickup_time_from',
+            'pickup_time_to',
         )

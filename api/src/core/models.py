@@ -42,6 +42,8 @@ class Item(models.Model):
     buyer = models.ForeignKey("auth.user", related_name="productBuyer", on_delete=models.CASCADE, null=True, blank=True)
     timestamp = models.DateTimeField(auto_now_add=True)
     pickup_location = models.CharField(max_length=200)
+    pickup_time_from = models.CharField(max_length=10, null=True)
+    pickup_time_to = models.CharField(max_length=10, null=True)
 
     def __str__(self):
         return self.title
