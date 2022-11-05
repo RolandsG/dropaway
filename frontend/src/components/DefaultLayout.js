@@ -11,7 +11,7 @@ const DefaultLayout = () => {
       <TopBar />
       <Box
         sx={{
-          width: { xs: '95vw', md: '90vw', lg: '80vw', xl: '70vw' },
+          width: { lg: '40vw', xl: '35vw' },
           marginLeft: 'auto',
           marginRight: 'auto',
         }}
