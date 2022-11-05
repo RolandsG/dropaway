@@ -4,25 +4,37 @@ import { TextField, Button, Stack, FormControl, InputLabel, Select, MenuItem } f
 import BackButton from '../components/BackButton'
 import Image from '@mui/icons-material/Image'
 import { useState } from 'react'
+import coreService from '../services/core'
 
 const ListNewProduct = () => {
   const [name, setName] = useState('')
   const [description, setDescription] = useState('')
-  const [category, setCategory] = useState(null)
-  const [condition, setCondition] = useState(null)
+  const [category, setCategory] = useState('')
+  const [condition, setCondition] = useState('')
   const [selectedImage, setSelectedImage] = useState(null)
+  const [error, setError] = useState(null)
 
-  const handleNameChange = (event) => {
-    setName(event.target.value)
-  }
-  const handleDescriptionChange = (event) => {
-    setDescription(event.target.value)
-  }
-  const handleCategoryChange = (event) => {
-    setCategory(event.target.value)
-  }
-  const handleConditionChange = (event) => {
-    setCondition(event.target.value)
+  const listProduct = async (event) => {
+    event.preventDefault()
+    const item = {
+      title: name,
+      category: category,
+      description: description,
+      photo_src: 'test_src',
+      dimensions: 'testXtest',
+      pickup_location: 'Hietalahdenranta 7',
+    }
+    try {
+      const response = await coreService.addProduct({ item })
+      if (response.error) {
+        setError(response.error)
+      } else {
+        console.log('item published')
+        //navigate('/')
+      }
+    } catch (exception) {
+      console.error(exception)
+    }
   }
   return (
     <Box
@@ -34,13 +46,13 @@ const ListNewProduct = () => {
       <Box sx={{ display: 'flex' }}>
         <BackButton />
       </Box>
-      <form onSubmit={''} id="login-form">
+      <form onSubmit={listProduct} id="login-form">
         <Stack spacing={2} sx={{ display: 'flex', flexDirection: 'column' }}>
           <TextField
             label="Item name"
             value={name}
             variant="standard"
-            onChange={handleNameChange}
+            onChange={({ target }) => setName(target.value)}
           />
           {selectedImage && (
             <div>
@@ -66,7 +78,7 @@ const ListNewProduct = () => {
             variant="standard"
             multiline
             value={description}
-            onChange={handleDescriptionChange}
+            onChange={({ target }) => setDescription(target.value)}
           />
           <FormControl fullWidth variant="standard">
             <InputLabel id="demo-simple-select-label">Category</InputLabel>
@@ -74,7 +86,7 @@ const ListNewProduct = () => {
               labelId="demo-simple-select-label"
               id="demo-simple-select"
               value={category}
-              onChange={handleCategoryChange}
+              onChange={({ target }) => setCategory(target.value)}
               label="Category"
             >
               <MenuItem value="APPAREL">Apparel</MenuItem>
@@ -93,7 +105,7 @@ const ListNewProduct = () => {
               labelId="demo-simple-select-label"
               id="demo-simple-select"
               value={condition}
-              onChange={handleConditionChange}
+              onChange={({ target }) => setCondition(target.value)}
               label="Category"
             >
               <MenuItem value="NEW">New</MenuItem>
@@ -102,14 +114,14 @@ const ListNewProduct = () => {
               <MenuItem value="DAMAGED">Damaged</MenuItem>
             </Select>
           </FormControl>
-          <Box sx={{ display: 'flex', flexDirection: 'column', p: 0 }}>
+          {/* <Box sx={{ display: 'flex', flexDirection: 'column', p: 0 }}>
             <Typography variant="subtitle2">Dimensions</Typography>
             <Stack direction="row" spacing={2} sx={{ display: 'flex' }}>
               <TextField variant="standard" label="Length" onChange="" />
               <TextField variant="standard" label="Width" onChange="" />
               <TextField variant="standard" label="Height" onChange="" />
             </Stack>
-          </Box>
+          </Box> */}
           {/* <TextField
             InputLabelProps={{ required: false }}
             type="password"
@@ -133,6 +145,11 @@ const ListNewProduct = () => {
           >
             Publish
           </Button>
+          {error && (
+            <Typography variant="overline" color="red">
+              {error}
+            </Typography>
+          )}
         </Stack>
       </form>
     </Box>

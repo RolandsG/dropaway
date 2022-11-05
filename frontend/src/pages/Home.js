@@ -98,6 +98,8 @@ const Home = () => {
             bottom: '70px',
             right: { xs: '30px', md: '100px', lg: '500px' },
           }}
+          component={NavLink}
+          to="new-product"
         >
           <AddIcon />
         </Fab>

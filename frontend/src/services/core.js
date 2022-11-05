@@ -10,22 +10,30 @@ const getProducts = async () => {
       ...(!!user && { Authorization: `Token ${user}` }),
     },
   }
-  const responseRaw = await fetch(`${baseUrl}/api/v1/core/Items/`, config)
+  const responseRaw = await fetch(`${baseUrl}/api/v1/core/items/`, config)
   const response = await responseRaw.json()
   return response
 }
 
 // mockup
-const addProduct = async ({ username, password }) => {
+const addProduct = async ({ item }) => {
   const user = window.localStorage.getItem('session')
   const config = {
-    method: 'GET',
+    method: 'POST',
     headers: {
       'Content-Type': 'application/json',
       ...(!!user && { Authorization: `Token ${user}` }),
     },
+    body: JSON.stringify({
+      title: item.title,
+      category: item.category,
+      description: item.description,
+      photo_src: item.photo_src,
+      dimensions: item.dimensions,
+      pickup_location: item.pickup_location,
+    }),
   }
-  const responseRaw = await fetch(`${baseUrl}/login/`, config)
+  const responseRaw = await fetch(`${baseUrl}/api/v1/core/items/`, config)
   const response = await responseRaw.json()
   return response
 }
