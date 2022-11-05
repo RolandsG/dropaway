@@ -13,10 +13,3 @@ class ItemViewSet(viewsets.ModelViewSet):
 
     serializer_class = ItemSerializer
     queryset = Item.objects.all()
-
-class ItemViewSet(viewsets.ModelViewSet):
-
-    serializer_class = ItemSerializer
-    queryset = Item.objects.all()
-    filter_backends = [filters.SearchFilter]
-    search_fields = ["title"]
