@@ -5,9 +5,9 @@ const login = async ({ username, password }) => {
   const config = {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ username, password }),
+    body: JSON.stringify({ username, password, email: 'rl@gg.lv' }),
   }
-  const responseRaw = await fetch(`${baseUrl}/login/`, config)
+  const responseRaw = await fetch(`${baseUrl}/api/v1/auth/login/`, config)
   const response = await responseRaw.json()
   return response
 }
