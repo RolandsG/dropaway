@@ -1,5 +1,4 @@
-from rest_framework.serializers import ModelSerializer, DecimalField
-from rest_framework import filters
+from rest_framework.serializers import ModelSerializer
 
 from .models import Item
 
@@ -7,4 +6,19 @@ from .models import Item
 class ItemSerializer(ModelSerializer):
     class Meta:
         model = Item
-        fields = '__all__'
+        fields = (
+            'id',
+            'title',
+            'category',
+            'description',
+            'photo_src',
+            'description',
+            'dimensions',
+            'status',
+        )
+
+
+class ItemPatchSerializer(ModelSerializer):
+    class Meta:
+        model = Item
+        fields = ('buyer',)
