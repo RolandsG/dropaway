@@ -6,9 +6,6 @@ ADD frontend /app
 RUN npm run build
 
 # STAGE 2
-FROM --platform=linux/amd64 nginxinc/nginx-unprivileged
-USER nginx
-COPY --chown=nginx:nginx --from=build /app/build /usr/share/nginx/html
-COPY --chown=nginx:nginx frontend/nginx.conf /etc/nginx/conf.d/default.conf
-EXPOSE 80
+FROM nginx:stable-alpine
+COPY --from=build /app/frontend/build /usr/share/nginx/html
 CMD ["nginx", "-g", "daemon off;"]

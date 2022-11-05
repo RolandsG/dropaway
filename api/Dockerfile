@@ -1,4 +1,4 @@
-FROM python:3.11
+FROM python:3.11-alpine
 ENV PYTHONUNBUFFERED 1
 ENV PYTHONDONTWRITEBYTECODE 1
 
@@ -10,9 +10,3 @@ COPY api/requirements.txt /app/requirements.txt
 RUN pip install --no-cache-dir --upgrade -r /app/requirements.txt
 
 COPY ./api/* /app
-
-RUN chmod +x /app/entrypoint.sh
-ENTRYPOINT [ "/app/entrypoint.sh" ]
-
-EXPOSE  8000/udp
-EXPOSE  8000/tcp

@@ -1,21 +1,30 @@
-version: "3.9"
+version: '2'
 services:
-  api:
-    build:
-      context: .
-      dockerfile: api/Dockerfile
-    env_file:
-      - ./api/src/project/.env
-    ports:
-      - "8000:8000"
-    command: startserver
-    volumes:
-      - .:/code
-  frontend:
-    build:
-      context: .
-      dockerfile: frontend/Dockerfile
-    env_file:
-      - ./frontend/.env
-    ports:
-      - "80:80"
+    nginx:
+        restart: unless-stopped
+        build:
+          context: .
+          dockerfile: frontend/Dockerfile
+        env_file:
+          - ./frontend/.env
+        ports:
+            - 80:80
+        volumes:
+            - static_volume:/app/src/static
+            - ./frontend/nginx.conf:/etc/nginx/conf.d
+        depends_on:
+            - backend
+    backend:
+        restart: unless-stopped
+        build:
+          context: .
+          dockerfile: api/Dockerfile
+        env_file:
+          - ./api/src/project/.env
+        entrypoint: /app/docker/backend/wsgi-entrypoint.sh
+        volumes:
+            - static_volume:/api/src/static
+        expose:
+            - 8000
+volumes:
+    static_volume: {}
