@@ -14,9 +14,13 @@ const getProducts = async ({ username, password }) => {
 
 // mockup
 const addProduct = async ({ username, password }) => {
+  const user = window.localStorage.getItem('session')
   const config = {
     method: 'GET',
-    headers: { 'Content-Type': 'application/json' },
+    headers: {
+      'Content-Type': 'application/json',
+      ...(!!user && { Authorization: `Token ${user}` }),
+    },
   }
   const responseRaw = await fetch(`${baseUrl}/login/`, config)
   const response = await responseRaw.json()

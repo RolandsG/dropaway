@@ -4,7 +4,7 @@ import TextField from '@mui/material/TextField'
 import Button from '@mui/material/Button'
 import authService from '../services/auth'
 import { useNavigate } from 'react-router-dom'
-import { Typography } from '@mui/material'
+import Typography from '@mui/material/Typography'
 
 const LoginForm = () => {
   const [email, setEmail] = useState('')
@@ -17,11 +17,10 @@ const LoginForm = () => {
     setError(null)
     try {
       const response = await authService.login({ email, password })
-      console.log(response)
       if (response.error) {
         setError(response.error)
       } else {
-        window.localStorage.setItem('session', JSON.stringify(response.key))
+        window.localStorage.setItem('session', response.key)
         navigate(-1)
       }
     } catch (exception) {

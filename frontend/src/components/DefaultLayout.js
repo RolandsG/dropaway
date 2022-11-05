@@ -4,6 +4,8 @@ import Box from '@mui/material/Box'
 import Footer from './Footer'
 
 const DefaultLayout = () => {
+  const user = window.localStorage.getItem('session')
+
   return (
     <Box>
       <TopBar />
@@ -16,7 +18,7 @@ const DefaultLayout = () => {
       >
         <Outlet />
       </Box>
-      <Footer />
+      {user && <Footer />}
     </Box>
   )
 }

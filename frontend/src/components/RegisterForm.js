@@ -4,23 +4,28 @@ import TextField from '@mui/material/TextField'
 import Button from '@mui/material/Button'
 import authService from '../services/auth'
 import { useNavigate } from 'react-router-dom'
+import Typography from '@mui/material/Typography'
 
 const RegisterForm = () => {
-  const [username, setName] = useState('')
-  const [password, setPassword] = useState('')
-  const [passwordConfirmation, setPasswordConfirmation] = useState('')
+  const [email, setEmail] = useState('')
+  const [password1, setPassword1] = useState('')
+  const [password2, setPassword2] = useState('')
+  const [error, setError] = useState(null)
   const navigate = useNavigate()
 
   const login = async (event) => {
     event.preventDefault()
     try {
-      const response = await authService.register({ username, password, passwordConfirmation })
-      window.localStorage.setItem('session', JSON.stringify(response.key))
-      navigate('/home')
+      const response = await authService.register({ email, password1, password2 })
+      if (response.error) {
+        setError(response.error)
+      } else {
+        window.localStorage.setItem('session', response.key)
+        navigate('/')
+      }
     } catch (exception) {
       console.error(exception)
     }
-    setPassword('')
   }
 
   return (
@@ -38,10 +43,10 @@ const RegisterForm = () => {
             type="text"
             fullWidth
             required
-            value={username}
-            id="name"
-            label="Username"
-            onChange={({ target }) => setName(target.value)}
+            value={email}
+            id="email"
+            label="Email (can be fake)"
+            onChange={({ target }) => setEmail(target.value)}
           />
           <TextField
             InputLabelProps={{ required: false }}
@@ -49,10 +54,10 @@ const RegisterForm = () => {
             variant="standard"
             fullWidth
             required
-            value={password}
+            value={password1}
             id="password"
             label="Password"
-            onChange={({ target }) => setPassword(target.value)}
+            onChange={({ target }) => setPassword1(target.value)}
           />
           <TextField
             InputLabelProps={{ required: false }}
@@ -60,11 +65,16 @@ const RegisterForm = () => {
             variant="standard"
             fullWidth
             required
-            value={passwordConfirmation}
+            value={password2}
             id="passwordConfirmation"
             label="Confirm Password"
-            onChange={({ target }) => setPasswordConfirmation(target.value)}
+            onChange={({ target }) => setPassword2(target.value)}
           />
+          {error && (
+            <Typography variant="overline" color="red">
+              {error}
+            </Typography>
+          )}
           <Button
             type="submit"
             id="register-button"
