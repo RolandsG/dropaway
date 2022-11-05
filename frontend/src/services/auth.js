@@ -1,23 +1,28 @@
 const baseUrl = process.env.REACT_APP_BASE_URL
 
-// mockup
-const login = async ({ username, password }) => {
+const login = async ({ email, password }) => {
   const config = {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ username, password, email: 'rl@gg.lv' }),
+    body: JSON.stringify({ password, email }),
   }
   const responseRaw = await fetch(`${baseUrl}/api/v1/auth/login/`, config)
   const response = await responseRaw.json()
+  if (responseRaw.status !== 200) {
+    if (response.non_field_errors) {
+      return { error: response.non_field_errors[0] }
+    } else if (response.email) {
+      return { error: response.email[0] }
+    }
+  }
   return response
 }
 
-// mockup
-const register = async ({ username, password }) => {
+const register = async ({ email, password, passwordConfirm }) => {
   const config = {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ username, password }),
+    body: JSON.stringify({ email, password }),
   }
   const responseRaw = await fetch(`${baseUrl}/register/`, config)
   const response = await responseRaw.json()

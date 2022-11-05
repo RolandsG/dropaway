@@ -4,18 +4,26 @@ import TextField from '@mui/material/TextField'
 import Button from '@mui/material/Button'
 import authService from '../services/auth'
 import { useNavigate } from 'react-router-dom'
+import { Typography } from '@mui/material'
 
 const LoginForm = () => {
-  const [username, setName] = useState('')
+  const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
+  const [error, setError] = useState(null)
   const navigate = useNavigate()
 
   const login = async (event) => {
     event.preventDefault()
+    setError(null)
     try {
-      const response = await authService.login({ username, password })
-      window.localStorage.setItem('session', JSON.stringify(response.key))
-      navigate(-1)
+      const response = await authService.login({ email, password })
+      console.log(response)
+      if (response.error) {
+        setError(response.error)
+      } else {
+        window.localStorage.setItem('session', JSON.stringify(response.key))
+        navigate(-1)
+      }
     } catch (exception) {
       console.error(exception)
     }
@@ -37,10 +45,10 @@ const LoginForm = () => {
             type="text"
             fullWidth
             required
-            value={username}
+            value={email}
             id="name"
-            label="Username"
-            onChange={({ target }) => setName(target.value)}
+            label="Email"
+            onChange={({ target }) => setEmail(target.value)}
           />
           <TextField
             InputLabelProps={{ required: false }}
@@ -53,6 +61,11 @@ const LoginForm = () => {
             label="Password"
             onChange={({ target }) => setPassword(target.value)}
           />
+          {error && (
+            <Typography variant="overline" color="red">
+              {error}
+            </Typography>
+          )}
           <Button
             type="submit"
             id="login-button"
