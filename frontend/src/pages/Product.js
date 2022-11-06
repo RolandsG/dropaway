@@ -125,16 +125,11 @@ const Product = () => {
               )}
             </Box>
             {success && (
-              <>
-                <Typography variant="overline" color="primary">
-                  Your order has been placed!
-                </Typography>
-                <Button color="primary" href={tracking} target="_blank">
-                  Track Order
-                </Button>
-              </>
+              <Button color="primary" href={tracking} target="_blank">
+                Track Order
+              </Button>
             )}
-            {user && deliveryFee && address && (
+            {!success && user && deliveryFee && address && (
               <Button variant="contained" color="primary" onClick={orderItem}>
                 Order
               </Button>
