@@ -4,11 +4,21 @@ import TextField from '@mui/material/TextField'
 import Button from '@mui/material/Button'
 import authService from '../services/auth'
 import Typography from '@mui/material/Typography'
+import { Snackbar, Alert } from '@mui/material'
 
 const LoginForm = () => {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [error, setError] = useState(null)
+  const [open, setOpen] = useState(false)
+
+  const handleClose = (event, reason) => {
+    if (reason === 'clickaway') {
+      return
+    }
+
+    setOpen(false)
+  }
 
   const login = async (event) => {
     event.preventDefault()
@@ -17,6 +27,7 @@ const LoginForm = () => {
       const response = await authService.login({ email, password })
       if (response.error) {
         setError(response.error)
+        setOpen(true)
       } else {
         window.localStorage.setItem('session', response.key)
         window.location.reload()
@@ -58,11 +69,6 @@ const LoginForm = () => {
             label="Password"
             onChange={({ target }) => setPassword(target.value)}
           />
-          {error && (
-            <Typography variant="overline" color="red">
-              {error}
-            </Typography>
-          )}
           <Button
             type="submit"
             id="login-button"
@@ -74,6 +80,11 @@ const LoginForm = () => {
           </Button>
         </Box>
       </form>
+      <Snackbar sx={{ p: 2 }} open={open} autoHideDuration={6000} onClose={handleClose}>
+        <Alert onClose={handleClose} severity="error" sx={{ width: '100%' }}>
+          {error}
+        </Alert>
+      </Snackbar>
     </Box>
   )
 }

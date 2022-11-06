@@ -8,7 +8,7 @@ import { useParams } from 'react-router-dom'
 import coreService from '../services/core'
 import woltService from '../services/wolt'
 import { NavLink, useNavigate } from 'react-router-dom'
-import { Chip } from '@mui/material'
+import { Chip, Snackbar, Alert } from '@mui/material'
 
 const Product = () => {
   const { id } = useParams()
@@ -21,6 +21,15 @@ const Product = () => {
   const [tracking, setTracking] = useState(null)
   const user = window.localStorage.getItem('session')
   const navigate = useNavigate()
+  const [open, setOpen] = useState(false)
+
+  const handleClose = (event, reason) => {
+    if (reason === 'clickaway') {
+      return
+    }
+
+    setOpen(false)
+  }
 
   const getProductInfo = async () => {
     const response = await coreService.getSingleProduct({ id })
@@ -32,6 +41,7 @@ const Product = () => {
     if (response.error_code) {
       console.error(response)
       setError(response.error_code)
+      setOpen(true)
     } else {
       setError(false)
       setSuccess(true)
@@ -147,6 +157,11 @@ const Product = () => {
           </Stack>
         </Box>
       )}
+      <Snackbar sx={{ p: 2 }} open={open} autoHideDuration={6000} onClose={handleClose}>
+        <Alert onClose={handleClose} severity="error" sx={{ width: '100%' }}>
+          {error}
+        </Alert>
+      </Snackbar>
     </Box>
   )
 }

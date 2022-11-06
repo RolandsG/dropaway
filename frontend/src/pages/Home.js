@@ -193,6 +193,7 @@ const Home = () => {
         onClose={handleClose}
         message="Log in to add or order items"
         action={action}
+        sx={{ p: 2 }}
       />
     </Box>
   )

@@ -9,6 +9,7 @@ import { Box } from '@mui/system'
 import { useState } from 'react'
 import woltService from '../services/wolt'
 import Typography from '@mui/material/Typography'
+import { Snackbar, Alert } from '@mui/material'
 
 export default function CalculateDelivery({
   setDeliveryFee,
@@ -20,6 +21,15 @@ export default function CalculateDelivery({
 }) {
   const [open, setOpen] = useState(false)
   const [error, setError] = useState(null)
+  const [snackOpen, setSnackOpen] = useState(false)
+
+  const handleSnackClose = (event, reason) => {
+    if (reason === 'clickaway') {
+      return
+    }
+
+    setSnackOpen(false)
+  }
 
   const handleClickOpen = () => {
     setOpen(true)
@@ -40,8 +50,9 @@ export default function CalculateDelivery({
       dropoff: address,
     })
     if (response.error_code) {
-      setError(response.error_code)
+      setError(response.reason)
       console.error(response)
+      setSnackOpen(true)
     } else {
       setError(null)
       const fee = ((response.fee.amount / 100) * Math.random()).toFixed(2)
@@ -76,17 +87,17 @@ export default function CalculateDelivery({
               value={address}
               onChange={({ target }) => setAddress(target.value)}
             />
-            {error && (
-              <Typography variant="overline" color="red">
-                {error}
-              </Typography>
-            )}
           </DialogContent>
           <DialogActions>
             <Button onClick={handleClose}>Cancel</Button>
             <Button onClick={getFee}>Calculate</Button>
           </DialogActions>
         </Dialog>
+        <Snackbar sx={{ p: 2 }} open={snackOpen} autoHideDuration={6000} onClose={handleSnackClose}>
+          <Alert onClose={handleSnackClose} severity="error" sx={{ width: '100%' }}>
+            {error}
+          </Alert>
+        </Snackbar>
       </Box>
     </div>
   )

@@ -9,6 +9,7 @@ import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider'
 import { TimePicker } from '@mui/x-date-pickers/TimePicker'
 import { AdapterMoment } from '@mui/x-date-pickers/AdapterMoment'
 import moment from 'moment'
+import { Snackbar, Alert } from '@mui/material'
 
 const ListNewProduct = () => {
   const [name, setName] = useState('')
@@ -23,6 +24,15 @@ const ListNewProduct = () => {
   const [toTimeString, setToTimeString] = useState('12:00')
   const [photoSrc, setPhotoSrc] = useState(null)
   const [photoSelected, setPhotoSelected] = useState(false)
+  const [open, setOpen] = useState(false)
+
+  const handleClose = (event, reason) => {
+    if (reason === 'clickaway') {
+      return
+    }
+
+    setOpen(false)
+  }
 
   const listProduct = async (event) => {
     event.preventDefault()
@@ -40,6 +50,7 @@ const ListNewProduct = () => {
       const response = await coreService.addProduct({ item })
       if (response.error) {
         setError(response.error)
+        setOpen(true)
       } else {
         console.log('item published')
         //navigate('/')
@@ -180,13 +191,13 @@ const ListNewProduct = () => {
           >
             Publish
           </Button>
-          {error && (
-            <Typography variant="overline" color="red">
-              {error}
-            </Typography>
-          )}
         </Stack>
       </form>
+      <Snackbar sx={{ p: 2 }} open={open} autoHideDuration={6000} onClose={handleClose}>
+        <Alert onClose={handleClose} severity="error" sx={{ width: '100%' }}>
+          {error}
+        </Alert>
+      </Snackbar>
     </Box>
   )
 }

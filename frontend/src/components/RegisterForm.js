@@ -4,12 +4,22 @@ import TextField from '@mui/material/TextField'
 import Button from '@mui/material/Button'
 import authService from '../services/auth'
 import Typography from '@mui/material/Typography'
+import { Snackbar, Alert } from '@mui/material'
 
 const RegisterForm = () => {
   const [email, setEmail] = useState('')
   const [password1, setPassword1] = useState('')
   const [password2, setPassword2] = useState('')
   const [error, setError] = useState(null)
+  const [open, setOpen] = useState(false)
+
+  const handleClose = (event, reason) => {
+    if (reason === 'clickaway') {
+      return
+    }
+
+    setOpen(false)
+  }
 
   const login = async (event) => {
     event.preventDefault()
@@ -17,6 +27,7 @@ const RegisterForm = () => {
       const response = await authService.register({ email, password1, password2 })
       if (response.error) {
         setError(response.error)
+        setOpen(true)
       } else {
         window.localStorage.setItem('session', response.key)
         window.location.reload()
@@ -68,11 +79,6 @@ const RegisterForm = () => {
             label="Confirm Password"
             onChange={({ target }) => setPassword2(target.value)}
           />
-          {error && (
-            <Typography variant="overline" color="red">
-              {error}
-            </Typography>
-          )}
           <Button
             type="submit"
             id="register-button"
@@ -84,6 +90,11 @@ const RegisterForm = () => {
           </Button>
         </Box>
       </form>
+      <Snackbar sx={{ p: 2 }} open={open} autoHideDuration={6000} onClose={handleClose}>
+        <Alert onClose={handleClose} severity="error" sx={{ width: '100%' }}>
+          {error}
+        </Alert>
+      </Snackbar>
     </Box>
   )
 }
