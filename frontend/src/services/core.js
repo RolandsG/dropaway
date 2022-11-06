@@ -36,7 +36,7 @@ const addProduct = async ({ item }) => {
       title: item.title,
       category: item.category,
       description: item.description,
-      photo_src: item.photo_src,
+      photo_src: item.photo_src || undefined,
       dimensions: item.dimensions,
       pickup_location: item.pickup_location,
       pickup_time_from: item.pickup_time_from,
@@ -45,6 +45,10 @@ const addProduct = async ({ item }) => {
   }
   const responseRaw = await fetch(`${baseUrl}/api/v1/core/items/`, config)
   const response = await responseRaw.json()
+  if (responseRaw.status !== 201) {
+    console.error(response)
+    return { error: 'uncaught error, check log' }
+  }
   return response
 }
 
@@ -71,19 +75,7 @@ const getOrders = async () => {
       ...(!!user && { Authorization: `Token ${user}` }),
     },
   }
-  const responseRaw = await fetch(`${baseUrl}/api/v1/core/user-items/`, config)
-  const response = await responseRaw.json()
-  return response
-}
-
-// mockup
-const purchaseProduct = async ({ username, password }) => {
-  const config = {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ username, password }),
-  }
-  const responseRaw = await fetch(`${baseUrl}/login/`, config)
+  const responseRaw = await fetch(`${baseUrl}/api/v1/core/user-ordered-items/`, config)
   const response = await responseRaw.json()
   return response
 }
@@ -94,6 +86,5 @@ export default {
   addProduct,
   getListings,
   getOrders,
-  purchaseProduct,
   getSingleProduct,
 }

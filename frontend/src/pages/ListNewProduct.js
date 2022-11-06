@@ -17,11 +17,12 @@ const ListNewProduct = () => {
   const [condition, setCondition] = useState('')
   const [error, setError] = useState(null)
   const [pickup_location, setPickupLocation] = useState('Helsiki Central Station')
-  const [fromTime, setFromTime] = useState(null)
-  const [fromTimeString, setFromTimeString] = useState(null)
-  const [toTime, setToTime] = useState(null)
-  const [toTimeString, setToTimeString] = useState(null)
+  const [fromTime, setFromTime] = useState(moment('2014-08-18T00:00:54'))
+  const [fromTimeString, setFromTimeString] = useState('00:00')
+  const [toTime, setToTime] = useState(moment('2014-08-18T12:00:54'))
+  const [toTimeString, setToTimeString] = useState('12:00')
   const [photoSrc, setPhotoSrc] = useState(null)
+  const [photoSelected, setPhotoSelected] = useState(false)
 
   const listProduct = async (event) => {
     event.preventDefault()
@@ -54,7 +55,7 @@ const ListNewProduct = () => {
         flexDirection: 'column',
       }}
     >
-      <Box sx={{ display: 'flex' }}>
+      <Box sx={{ display: 'flex', p: 0 }}>
         <BackButton />
       </Box>
       <form onSubmit={listProduct} id="login-form">
@@ -63,12 +64,14 @@ const ListNewProduct = () => {
             label="Item name"
             value={name}
             variant="standard"
+            required
             onChange={({ target }) => setName(target.value)}
           />
-          <FileUpload setPhotoSrc={setPhotoSrc} />
+          <FileUpload setPhotoSrc={setPhotoSrc} selected={setPhotoSelected} />
           <TextField
             label="Description"
             variant="standard"
+            required
             multiline
             value={description}
             onChange={({ target }) => setDescription(target.value)}
@@ -78,6 +81,7 @@ const ListNewProduct = () => {
             <Select
               labelId="demo-simple-select-label"
               id="demo-simple-select"
+              required
               value={category}
               onChange={({ target }) => setCategory(target.value)}
               label="Category"
@@ -98,6 +102,7 @@ const ListNewProduct = () => {
               labelId="demo-simple-select-label"
               id="demo-simple-select"
               value={condition}
+              required
               onChange={({ target }) => setCondition(target.value)}
               label="Category"
             >
@@ -110,6 +115,7 @@ const ListNewProduct = () => {
           <TextField
             variant="standard"
             label="Pickup address"
+            required
             value={pickup_location}
             onChange={({ target }) => setPickupLocation(target.value)}
           />
@@ -160,6 +166,11 @@ const ListNewProduct = () => {
           <Typography variant="overline" color="red">
             Error
           </Typography> */}
+          {photoSelected && (
+            <Typography variant="overline" color="red">
+              Please upload the photo as well!
+            </Typography>
+          )}
           <Button
             type="submit"
             id="login-button"

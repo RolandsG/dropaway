@@ -96,6 +96,16 @@ const Product = () => {
                 <Typography variant="body1">Delivery estimate: {deliveryEstimate} min</Typography>
               )}
             </Box>
+            {success && (
+              <>
+                <Typography variant="overline" color="primary">
+                  Your order has been placed!
+                </Typography>
+                <Button color="primary" href={tracking} target="_blank">
+                  Track Order
+                </Button>
+              </>
+            )}
             {user && deliveryFee && address && (
               <Button variant="contained" color="primary" onClick={orderItem}>
                 Order
@@ -110,16 +120,6 @@ const Product = () => {
               <Typography variant="overline" color="red">
                 {error}
               </Typography>
-            )}
-            {success && (
-              <>
-                <Typography variant="overline" color="primary">
-                  Your order has been placed!
-                </Typography>
-                <Button color="primary" href={tracking} target="_blank">
-                  Track Order
-                </Button>
-              </>
             )}
           </Stack>
         </Box>
