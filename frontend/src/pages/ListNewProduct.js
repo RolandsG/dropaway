@@ -16,7 +16,7 @@ const ListNewProduct = () => {
   const [category, setCategory] = useState('')
   const [condition, setCondition] = useState('')
   const [error, setError] = useState(null)
-  const [pickup_location, setPickupLocation] = useState('Helsiki Central Station')
+  const [pickup_location, setPickupLocation] = useState('Helsinki Central Station')
   const [fromTime, setFromTime] = useState(moment('2014-08-18T00:00:54'))
   const [fromTimeString, setFromTimeString] = useState('00:00')
   const [toTime, setToTime] = useState(moment('2014-08-18T12:00:54'))
@@ -125,7 +125,7 @@ const ListNewProduct = () => {
               <TimePicker
                 label="From"
                 value={fromTime}
-                inoutFormat="HH:mm"
+                minutesStep={10}
                 onChange={(newValue) => {
                   setFromTime(newValue)
                   setFromTimeString(moment(newValue).format('hh:mm'))
@@ -139,7 +139,7 @@ const ListNewProduct = () => {
                   setToTime(newValue)
                   setToTimeString(moment(newValue).format('hh:mm'))
                 }}
-                minutesStep="10"
+                minutesStep={10}
                 renderInput={(params) => <TextField {...params} />}
               />
             </Stack>
