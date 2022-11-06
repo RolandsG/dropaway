@@ -7,7 +7,7 @@ const getProducts = async () => {
       'Content-Type': 'application/json',
     },
   }
-  const responseRaw = await fetch(`${baseUrl}/v1/core/items/?status=LISTED`, config)
+  const responseRaw = await fetch(`${baseUrl}api/v1/core/items/?status=LISTED`, config)
   const response = await responseRaw.json()
   return response
 }
