@@ -49,6 +49,16 @@ class UserItemViewSet(ModelViewSet):
         return Item.objects.filter(user=self.request.user)
 
 
+class UserOrderedItemViewSet(ModelViewSet):
+    permission_classes = [IsAuthenticated]
+    http_method_names = ["get"]
+    queryset = Item.objects.all()
+    serializer_class = ItemSerializer
+
+    def get_queryset(self):
+        return Item.objects.filter(buyer=self.request.user)
+
+
 class DeliveryFeeView(APIView):
 
     def get(self, request, *args, **kwargs):
