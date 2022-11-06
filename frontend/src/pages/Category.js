@@ -3,7 +3,6 @@ import Box from '@mui/material/Container'
 import Typography from '@mui/material/Typography'
 import coreService from '../services/core'
 import { NavLink } from 'react-router-dom'
-import Button from '@mui/material/Button'
 import { useParams } from 'react-router-dom'
 import BackButton from '../components/BackButton'
 
@@ -64,9 +63,10 @@ const Category = () => {
                       component="img"
                       sx={{
                         width: '100%',
+                        borderRadius: 3,
                       }}
                       alt="Item Picture"
-                      src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ6GGUNbamHf-Kn0vOP67diocqTsx4QXme2SQ&usqp=CAU"
+                      src={product.photo_src}
                     />
                   </NavLink>
                   <Typography

@@ -74,10 +74,12 @@ const Home = () => {
                             disableGutters
                             component="img"
                             sx={{
-                              width: '100%',
+                              height: '100px',
+                              objectFit: 'cover',
+                              borderRadius: 3,
                             }}
                             alt="Item Picture"
-                            src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ6GGUNbamHf-Kn0vOP67diocqTsx4QXme2SQ&usqp=CAU"
+                            src={product.photo_src}
                           />
                         </NavLink>
                         <Typography
