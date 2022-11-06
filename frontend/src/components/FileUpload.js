@@ -3,7 +3,7 @@ import Image from '@mui/icons-material/Image'
 import { Typography, Button, Box } from '@mui/material'
 import CircularProgress from '@mui/material/CircularProgress'
 
-const FileUpload = () => {
+const FileUpload = ({ setPhotoSrc }) => {
   const [image, setImage] = useState(null)
   const [url, setUrl] = useState('')
   const [loading, setLoading] = useState(false)
@@ -20,6 +20,7 @@ const FileUpload = () => {
       .then((resp) => resp.json())
       .then((data) => {
         setUrl(data.url)
+        setPhotoSrc(data.url)
         console.log(data.url)
         setLoading(false)
       })

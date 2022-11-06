@@ -53,7 +53,7 @@ const Product = () => {
           <BackButton />
           <Stack spacing={2} sx={{ display: 'flex' }}>
             <img
-              src="https://images.unsplash.com/photo-1551963831-b3b1ca40c98e"
+              src={product.photo_src}
               loading="lazy"
               width="100%"
               style={{ borderRadius: '15px' }}
@@ -65,7 +65,6 @@ const Product = () => {
               {product.category}
             </Typography>
             <Typography variant="body1">{product.description}</Typography>
-            <Typography variant="body2">Dimensions: {product.dimensions}</Typography>
             <Typography variant="body2">Condition: {product.condition}</Typography>
             <Box
               sx={{

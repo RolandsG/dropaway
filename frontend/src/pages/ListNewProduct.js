@@ -22,6 +22,7 @@ const ListNewProduct = () => {
   const [fromTimeString, setFromTimeString] = useState(null)
   const [toTime, setToTime] = useState(null)
   const [toTimeString, setToTimeString] = useState(null)
+  const [photoSrc, setPhotoSrc] = useState(null)
 
   const listProduct = async (event) => {
     event.preventDefault()
@@ -29,7 +30,7 @@ const ListNewProduct = () => {
       title: name,
       category: category,
       description: description,
-      photo_src: 'test_src',
+      photo_src: photoSrc,
       dimensions: 'testXtest',
       pickup_location: pickup_location,
       pickup_time_from: fromTimeString,
@@ -65,7 +66,7 @@ const ListNewProduct = () => {
             variant="standard"
             onChange={({ target }) => setName(target.value)}
           />
-          <FileUpload />
+          <FileUpload setPhotoSrc={setPhotoSrc} />
           <TextField
             label="Description"
             variant="standard"
