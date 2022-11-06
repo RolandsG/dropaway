@@ -51,7 +51,7 @@ const addProduct = async ({ item }) => {
 const getOrders = async () => {
   const user = window.localStorage.getItem('session')
   const config = {
-    method: 'POST',
+    method: 'GET',
     headers: {
       'Content-Type': 'application/json',
       ...(!!user && { Authorization: `Token ${user}` }),
