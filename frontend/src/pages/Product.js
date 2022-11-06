@@ -7,7 +7,7 @@ import { useState, useEffect } from 'react'
 import { useParams } from 'react-router-dom'
 import coreService from '../services/core'
 import woltService from '../services/wolt'
-import { NavLink } from 'react-router-dom'
+import { NavLink, useNavigate } from 'react-router-dom'
 
 const Product = () => {
   const { id } = useParams()
@@ -18,6 +18,8 @@ const Product = () => {
   const [error, setError] = useState(null)
   const [success, setSuccess] = useState(null)
   const [tracking, setTracking] = useState(null)
+  const user = window.localStorage.getItem('session')
+  const navigate = useNavigate()
 
   const getProductInfo = async () => {
     const response = await coreService.getSingleProduct({ id })
@@ -94,9 +96,14 @@ const Product = () => {
                 <Typography variant="body1">Delivery estimate: {deliveryEstimate} min</Typography>
               )}
             </Box>
-            {deliveryFee && address && (
+            {user && deliveryFee && address && (
               <Button variant="contained" color="primary" onClick={orderItem}>
                 Order
+              </Button>
+            )}
+            {!user && deliveryFee && address && (
+              <Button variant="contained" color="primary" onClick={() => navigate('/login')}>
+                Log in to order
               </Button>
             )}
             {error && (

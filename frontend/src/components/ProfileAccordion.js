@@ -4,6 +4,7 @@ import AccordionSummary from '@mui/material/AccordionSummary'
 import AccordionDetails from '@mui/material/AccordionDetails'
 import Typography from '@mui/material/Typography'
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore'
+import MyListings from '../components/MyListings'
 import {
   InputLabel,
   Select,
@@ -18,6 +19,7 @@ import {
   ListItemIcon,
   ListItemText,
   ListItemButton,
+  Box,
 } from '@mui/material'
 import { useState } from 'react'
 import HomeIcon from '@mui/icons-material/Home'
@@ -29,7 +31,7 @@ export default function ProfileAccordion({ user }) {
     setCountry(event.target.value)
   }
   return (
-    <div>
+    <Box>
       <Accordion>
         <AccordionSummary
           expandIcon={<ExpandMoreIcon />}
@@ -39,10 +41,7 @@ export default function ProfileAccordion({ user }) {
           <Typography>My listings</Typography>
         </AccordionSummary>
         <AccordionDetails>
-          <Typography>
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse malesuada lacus ex,
-            sit amet blandit leo lobortis eget.
-          </Typography>
+          <MyListings />
         </AccordionDetails>
       </Accordion>
       <Accordion>
@@ -126,6 +125,6 @@ export default function ProfileAccordion({ user }) {
           </List>
         </AccordionDetails>
       </Accordion>
-    </div>
+    </Box>
   )
 }

@@ -1,13 +1,22 @@
-import { Avatar } from '@mui/material'
+import { Avatar, Button } from '@mui/material'
 import Box from '@mui/material/Container'
 import Typography from '@mui/material/Typography'
 import { useEffect, useState } from 'react'
 import ProfileAccordion from '../components/ProfileAccordion'
+import { useNavigate } from 'react-router-dom'
 
 const Profile = () => {
   const text = 'Profile'
   const legoImageId = Math.floor(Math.random() * 9)
   const [user, setUser] = useState(null)
+  const navigate = useNavigate()
+
+  const logOut = () => {
+    window.localStorage.removeItem('session')
+    navigate('/login')
+    window.location.reload()
+  }
+
   const getUser = async () => {
     const config = {
       method: 'GET',
@@ -18,7 +27,6 @@ const Profile = () => {
       config,
     )
     const response = await responseRaw.json()
-    console.log(response.results[0])
     setUser(response.results[0])
   }
 
@@ -45,6 +53,9 @@ const Profile = () => {
         <Box sx={{ display: 'flex' }}>
           <ProfileAccordion user={user} />
         </Box>
+        <Button variant="outlined" onClick={logOut}>
+          Log out
+        </Button>
       </Box>
     </Box>
   )
