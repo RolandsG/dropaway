@@ -10,6 +10,7 @@ import { TimePicker } from '@mui/x-date-pickers/TimePicker'
 import { AdapterMoment } from '@mui/x-date-pickers/AdapterMoment'
 import moment from 'moment'
 import { Snackbar, Alert } from '@mui/material'
+import { useNavigate } from 'react-router-dom'
 
 const ListNewProduct = () => {
   const [name, setName] = useState('')
@@ -25,6 +26,7 @@ const ListNewProduct = () => {
   const [photoSrc, setPhotoSrc] = useState(null)
   const [photoSelected, setPhotoSelected] = useState(false)
   const [open, setOpen] = useState(false)
+  const navigate = useNavigate()
 
   const handleClose = (event, reason) => {
     if (reason === 'clickaway') {
@@ -53,7 +55,7 @@ const ListNewProduct = () => {
         setOpen(true)
       } else {
         console.log('item published')
-        //navigate('/')
+        navigate('/product/' + response.id)
       }
     } catch (exception) {
       console.error(exception)
