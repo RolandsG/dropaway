@@ -35,7 +35,7 @@ class Item(models.Model):
     title = models.CharField(max_length=100)
     category = models.CharField(max_length=20, choices=CATEGORIES, default='OTHER')
     description = models.CharField(max_length=500)
-    photo_src = models.CharField(max_length=200)
+    photo_src = models.CharField(max_length=500, default="https://static.vecteezy.com/system/resources/thumbnails/000/356/559/small_2x/10__2832_29.jpg")
     dimensions = models.CharField(max_length=100)
     status = models.CharField(max_length=20, choices=STATUSES, default='LISTED')
     condition = models.CharField(max_length=20, choices=CONDITIONS, default='USED')
