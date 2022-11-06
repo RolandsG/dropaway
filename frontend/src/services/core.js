@@ -48,6 +48,20 @@ const addProduct = async ({ item }) => {
   return response
 }
 
+const getListings = async () => {
+  const user = window.localStorage.getItem('session')
+  const config = {
+    method: 'GET',
+    headers: {
+      'Content-Type': 'application/json',
+      ...(!!user && { Authorization: `Token ${user}` }),
+    },
+  }
+  const responseRaw = await fetch(`${baseUrl}/api/v1/core/user-items/`, config)
+  const response = await responseRaw.json()
+  return response
+}
+
 const getOrders = async () => {
   const user = window.localStorage.getItem('session')
   const config = {
@@ -78,6 +92,7 @@ const purchaseProduct = async ({ username, password }) => {
 export default {
   getProducts,
   addProduct,
+  getListings,
   getOrders,
   purchaseProduct,
   getSingleProduct,
