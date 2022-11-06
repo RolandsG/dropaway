@@ -25,7 +25,9 @@ const Orders = () => {
       {!orders ||
         (orders.length === 0 && (
           <Box sx={{ display: 'flex', flexDirection: 'column', justifyItems: 'center', p: 2 }}>
-            <Typography variant="subtitle1">You have not made any orders yet</Typography>
+            <Typography textAlign="center" variant="subtitle1">
+              You have not made any orders yet
+            </Typography>
           </Box>
         ))}
       <List

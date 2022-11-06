@@ -52,10 +52,8 @@ const MyListings = () => {
           )
         })}
       {listings.length === 0 && (
-        <ListItem>
-          <Typography sx={{ display: 'flex', justifyContent: 'center' }}>
-            You don't have any listed items
-          </Typography>
+        <ListItem sx={{ display: 'flex', justifyContent: 'center' }}>
+          <Typography textAlign="center">You don't have any listed items</Typography>
         </ListItem>
       )}
     </Box>
