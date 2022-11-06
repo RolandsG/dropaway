@@ -6,6 +6,7 @@ import { NavLink } from 'react-router-dom'
 import Button from '@mui/material/Button'
 import Fab from '@mui/material/Fab'
 import AddIcon from '@mui/icons-material/Add'
+import ChevronRight from '@mui/icons-material/ChevronRight'
 
 const Home = () => {
   const title = 'Categories'
@@ -38,11 +39,22 @@ const Home = () => {
             <Box disableGutters key={category} sx={{ mt: 1 }}>
               <Box
                 disableGutters
-                sx={{ display: 'flex', flexDirection: 'row', alignItems: 'center' }}
+                sx={{
+                  display: 'flex',
+                  flexDirection: 'row',
+                  alignItems: 'center',
+                  justifyContent: 'space-between',
+                }}
               >
                 <Typography variant="h6">{category}</Typography>
-                <Button variant="text" component={NavLink} to={`category/${category}`}>
-                  all
+                <Button
+                  variant="text"
+                  component={NavLink}
+                  to={`category/${category}`}
+                  endIcon={<ChevronRight />}
+                  sx={{ textTransform: 'none' }}
+                >
+                  See all
                 </Button>
               </Box>
               <Box
@@ -86,7 +98,12 @@ const Home = () => {
                           component={NavLink}
                           to={`product/${product.id}`}
                           variant="body2"
-                          sx={{ my: 1, textDecoration: 'none', color: 'inherit' }}
+                          sx={{
+                            my: 1,
+                            textDecoration: 'none',
+                            color: 'inherit',
+                            fontWeight: '600',
+                          }}
                         >
                           {product.title}
                         </Typography>

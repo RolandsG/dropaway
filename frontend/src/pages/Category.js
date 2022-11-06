@@ -62,7 +62,8 @@ const Category = () => {
                       disableGutters
                       component="img"
                       sx={{
-                        width: '100%',
+                        height: '100px',
+                        objectFit: 'cover',
                         borderRadius: 3,
                       }}
                       alt="Item Picture"
@@ -73,7 +74,7 @@ const Category = () => {
                     component={NavLink}
                     to={`product/${product.id}`}
                     variant="body2"
-                    sx={{ my: 1, textDecoration: 'none', color: 'inherit' }}
+                    sx={{ my: 1, textDecoration: 'none', color: 'inherit', fontWeight: '600' }}
                   >
                     {product.title}
                   </Typography>
