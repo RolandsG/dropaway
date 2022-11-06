@@ -5,9 +5,9 @@ import coreService from '../services/core'
 import { List, ListItem, ListItemText, ListItemButton, ListItemAvatar, Avatar } from '@mui/material'
 
 const Orders = () => {
-  const text = 'My orders:'
+  const text = 'My orders'
 
-  const [orders, setOrders] = useState()
+  const [orders, setOrders] = useState([])
 
   const getOrders = async () => {
     const response = await coreService.getOrders()
@@ -22,6 +22,12 @@ const Orders = () => {
   return (
     <Box sx={{ display: 'flex', mt: 1, justifyContent: 'center', flexDirection: 'column' }}>
       <Typography variant="h6">{text}</Typography>
+      {!orders ||
+        (orders.length === 0 && (
+          <Box sx={{ display: 'flex', flexDirection: 'column', justifyItems: 'center', p: 2 }}>
+            <Typography variant="subtitle1">You have not made any orders yet</Typography>
+          </Box>
+        ))}
       <List
         disablePadding
         sx={{

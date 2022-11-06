@@ -8,6 +8,7 @@ import { useParams } from 'react-router-dom'
 import coreService from '../services/core'
 import woltService from '../services/wolt'
 import { NavLink, useNavigate } from 'react-router-dom'
+import { Chip } from '@mui/material'
 
 const Product = () => {
   const { id } = useParams()
@@ -23,7 +24,6 @@ const Product = () => {
 
   const getProductInfo = async () => {
     const response = await coreService.getSingleProduct({ id })
-    console.log(response)
     setProduct(response)
   }
 
@@ -40,6 +40,21 @@ const Product = () => {
     }
   }
 
+  const handleCondition = (condition) => {
+    if (condition === 'NEW') {
+      return { name: 'New', color: 'primary' }
+    }
+    if (condition === 'ALMOST_NEW') {
+      return { name: 'Almost new', color: 'info' }
+    }
+    if (condition === 'USED') {
+      return { name: 'Used', color: 'secondary' }
+    }
+    if (condition === 'DAMAGED') {
+      return { name: 'Damaged', color: 'warning' }
+    }
+  }
+
   // const handleTracking = () => {
 
   // }
@@ -51,23 +66,36 @@ const Product = () => {
   return (
     <Box sx={{ display: 'flex', mt: 1, p: 0, justifyContent: 'center' }}>
       {product && (
-        <Box sx={{ display: 'flex', flexDirection: 'column', p: 0 }}>
+        <Box
+          sx={{
+            display: 'flex',
+            flexDirection: 'column',
+            width: '100%',
+            p: 0,
+          }}
+        >
           <BackButton />
-          <Stack spacing={2} sx={{ display: 'flex' }}>
+          <Stack spacing={2} sx={{ display: 'flex', width: '100%' }}>
             <img
               src={product.photo_src}
               loading="lazy"
               width="100%"
               style={{ borderRadius: '15px' }}
             />
-            <Typography variant="h5" sx={{ fontWeight: '600' }}>
-              {product.title}
-            </Typography>
+            <Box sx={{ display: 'flex', justifyContent: 'space-between' }}>
+              <Typography variant="h5" sx={{ fontWeight: '600' }}>
+                {product.title}
+              </Typography>
+              <Chip
+                label={handleCondition(product.condition).name}
+                color={handleCondition(product.condition).color}
+                variant="outlined"
+              />
+            </Box>
             <Typography variant="h6" color="grey" sx={{ fontWeight: '600' }}>
               {product.category}
             </Typography>
             <Typography variant="body1">{product.description}</Typography>
-            <Typography variant="body2">Condition: {product.condition}</Typography>
             <Box
               sx={{
                 display: 'flex',

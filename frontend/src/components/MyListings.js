@@ -1,12 +1,11 @@
 import { useState, useEffect } from 'react'
 import coreService from '../services/core'
-import { Box, Typography } from '@mui/system'
 import { List, ListItem, ListItemText, ListItemButton, ListItemAvatar } from '@mui/material'
 import { useNavigate } from 'react-router-dom'
-import { Avatar } from '@mui/material'
+import { Avatar, Typography, Box } from '@mui/material'
 
 const MyListings = () => {
-  const [listings, setListings] = useState()
+  const [listings, setListings] = useState([])
   const navigate = useNavigate()
 
   const getListings = async () => {
@@ -20,37 +19,46 @@ const MyListings = () => {
   }, [])
 
   return (
-    <List
-      disablePadding
-      sx={{
-        display: 'flex',
-        mt: 1,
-        justifyContent: 'center',
-        flexDirection: 'column',
-      }}
-    >
+    <Box>
       {listings &&
         listings.map((listing) => {
           return (
-            <ListItem
+            <List
               disablePadding
-              dense
-              key={listing.id}
-              sx={{ mt: 1 }}
-              onClick={() => navigate(`/product/${listing.id}`)}
+              sx={{
+                display: 'flex',
+                mt: 1,
+                justifyContent: 'center',
+                flexDirection: 'column',
+              }}
             >
-              <ListItemAvatar>
-                <Avatar>
-                  <img src={listing.photo_src} />
-                </Avatar>
-              </ListItemAvatar>
-              <ListItemButton>
-                <ListItemText primary={listing.title} secondary={listing.category} />
-              </ListItemButton>
-            </ListItem>
+              <ListItem
+                disablePadding
+                dense
+                key={listing.id}
+                sx={{ mt: 1 }}
+                onClick={() => navigate(`/product/${listing.id}`)}
+              >
+                <ListItemAvatar>
+                  <Avatar>
+                    <img src={listing.photo_src} />
+                  </Avatar>
+                </ListItemAvatar>
+                <ListItemButton>
+                  <ListItemText primary={listing.title} secondary={listing.category} />
+                </ListItemButton>
+              </ListItem>
+            </List>
           )
         })}
-    </List>
+      {listings.length === 0 && (
+        <ListItem>
+          <Typography sx={{ display: 'flex', justifyContent: 'center' }}>
+            You don't have any listed items
+          </Typography>
+        </ListItem>
+      )}
+    </Box>
   )
 }
 
