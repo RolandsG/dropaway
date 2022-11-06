@@ -31,7 +31,7 @@ export default function ProfileAccordion({ user }) {
     setCountry(event.target.value)
   }
   return (
-    <Box>
+    <Box sx={{ display: 'flex', flexDirection: 'column', width: '100%' }}>
       <Accordion>
         <AccordionSummary
           expandIcon={<ExpandMoreIcon />}

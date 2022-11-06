@@ -51,9 +51,9 @@ const Profile = () => {
           )}
         </Box>
         <Box sx={{ display: 'flex' }}>
-          <ProfileAccordion user={user} />
+          <ProfileAccordion user={user} sx={{ display: 'flex' }} />
         </Box>
-        <Button variant="outlined" onClick={logOut}>
+        <Button variant="outlined" color="error" onClick={logOut} sx={{ m: 2 }}>
           Log out
         </Button>
       </Box>
