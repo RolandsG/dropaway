@@ -22,6 +22,7 @@ const LoginForm = () => {
       } else {
         window.localStorage.setItem('session', response.key)
         navigate(-1)
+        window.location.reload()
       }
     } catch (exception) {
       console.error(exception)
