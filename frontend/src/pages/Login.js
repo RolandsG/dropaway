@@ -1,17 +1,31 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import PropTypes from 'prop-types'
 import Box from '@mui/material/Container'
 import LoginForm from '../components/LoginForm'
 import Tabs from '@mui/material/Tabs'
 import Tab from '@mui/material/Tab'
 import RegisterForm from '../components/RegisterForm'
+import { useNavigate } from 'react-router-dom'
 
 const Login = () => {
   const [value, setValue] = useState(0)
+  const checkUser = window.localStorage.getItem('session')
 
   const handleChange = (event, newValue) => {
     setValue(newValue)
   }
+
+  const navigate = useNavigate()
+
+  const checkIfLoggedIn = () => {
+    if (checkUser) {
+      navigate('/')
+    }
+  }
+
+  useEffect(() => {
+    checkIfLoggedIn()
+  }, [])
 
   const TabPanel = (props) => {
     const { children, value, index, ...other } = props

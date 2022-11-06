@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react'
+import * as React from 'react'
 import Box from '@mui/material/Container'
 import Typography from '@mui/material/Typography'
 import coreService from '../services/core'
@@ -7,12 +8,39 @@ import Button from '@mui/material/Button'
 import Fab from '@mui/material/Fab'
 import AddIcon from '@mui/icons-material/Add'
 import ChevronRight from '@mui/icons-material/ChevronRight'
+import Snackbar from '@mui/material/Snackbar'
+import IconButton from '@mui/material/IconButton'
+import CloseIcon from '@mui/icons-material/Close'
 
 const Home = () => {
   const title = 'Categories'
   const user = window.localStorage.getItem('session')
   const [items, setItems] = useState(null)
   const [categories, setCategories] = useState(null)
+  const [open, setOpen] = useState(false)
+
+  const handleClick = () => {
+    setOpen(true)
+  }
+
+  const handleClose = (event, reason) => {
+    if (reason === 'clickaway') {
+      return
+    }
+
+    setOpen(false)
+  }
+
+  const action = (
+    <React.Fragment>
+      <Button color="primary" size="small" component={NavLink} to="login">
+        Log in
+      </Button>
+      <IconButton size="small" color="primary" onClick={handleClose}>
+        <CloseIcon fontSize="small" />
+      </IconButton>
+    </React.Fragment>
+  )
 
   const getItems = async () => {
     const response = await coreService.getProducts()
@@ -30,9 +58,17 @@ const Home = () => {
       disableGutters
       sx={{ display: 'flex', mt: 1, justifyContent: 'center', flexDirection: 'column' }}
     >
-      <Typography variant="h5" sx={{ mb: 2, fontWeight: 'bold' }}>
-        {title}
-      </Typography>
+      <Box sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'center', mb: 2 }}>
+        <Typography variant="h5" sx={{ fontWeight: 'bold' }}>
+          {title}
+        </Typography>
+        <Box sx={{ flexGrow: 1 }} />
+        {!user && (
+          <Button component={NavLink} to="login">
+            Log in
+          </Button>
+        )}
+      </Box>
       {categories &&
         categories.map((category) => {
           return (
@@ -133,6 +169,31 @@ const Home = () => {
           </Fab>
         </Box>
       )}
+      {!user && !open && (
+        <Box sx={{ display: 'flex' }}>
+          <Box sx={{ flexGrow: 1 }} />
+          <Fab
+            color="primary"
+            aria-label="add"
+            sx={{
+              minWidth: '56px',
+              position: 'fixed',
+              bottom: '30px',
+              right: { xs: '30px', md: '100px', lg: '500px' },
+            }}
+            onClick={handleClick}
+          >
+            <AddIcon />
+          </Fab>
+        </Box>
+      )}
+      <Snackbar
+        open={open}
+        autoHideDuration={6000}
+        onClose={handleClose}
+        message="Log in to add or order items"
+        action={action}
+      />
     </Box>
   )
 }
