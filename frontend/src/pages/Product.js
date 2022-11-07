@@ -112,14 +112,16 @@ const Product = () => {
                 justifyContent: 'center',
               }}
             >
-              <CalculateDelivery
-                setDeliveryFee={setDeliveryFee}
-                deliveryFee={deliveryFee}
-                setDeliveryEstimate={setDeliveryEstimate}
-                pickup={product.pickup_location}
-                address={address}
-                setAddress={setAddress}
-              />
+              {!success && (
+                <CalculateDelivery
+                  setDeliveryFee={setDeliveryFee}
+                  deliveryFee={deliveryFee}
+                  setDeliveryEstimate={setDeliveryEstimate}
+                  pickup={product.pickup_location}
+                  address={address}
+                  setAddress={setAddress}
+                />
+              )}
             </Box>
             <Box
               sx={{

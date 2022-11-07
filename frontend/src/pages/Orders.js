@@ -2,10 +2,20 @@ import Box from '@mui/material/Container'
 import Typography from '@mui/material/Typography'
 import { useState, useEffect } from 'react'
 import coreService from '../services/core'
-import { List, ListItem, ListItemText, ListItemButton, ListItemAvatar, Avatar } from '@mui/material'
+import { useNavigate } from 'react-router-dom'
+import {
+  List,
+  ListItem,
+  ListItemText,
+  ListItemIcon,
+  ListItemAvatar,
+  Avatar,
+  Button,
+} from '@mui/material'
 
 const Orders = () => {
   const text = 'My orders'
+  const navigate = useNavigate()
 
   const [orders, setOrders] = useState([])
 
