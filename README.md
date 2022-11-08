@@ -23,6 +23,10 @@ Dropaway is just a first step but an important one to test a Wolt driver network
 
 [App Demo](https://dropaway.netlify.app/)
 
+#### App screens:
+![image](dropaway2.jpeg)
+![image](dropaway3.jpeg)
+
 **Technologies we used:**
 
     Python, Javascript, Django, React, PostgreSQL, Figma, Google Cloud Services
