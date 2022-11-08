@@ -1,4 +1,6 @@
 # Dropaway
+## Junction 2022 project 
+### 🥉 in Wolt challenge
 
 #### Dropaway makes it possible to give and get free stuff. Delivered to you – quickly, reliably, and affordably.
 
